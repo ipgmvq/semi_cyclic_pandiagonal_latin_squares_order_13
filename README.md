@@ -1,2 +1,1 @@
-# semi_cyclic_pandiagonal_latin_squares_order_13
-A new computational fast algorithms of constructing semi-cyclic pandiagonal Latin squares for an arbitrary order.
+This repository is created to publish a new computational fast algorithm of constructing semi-cyclic pandiagonal Latin squares for an arbitrary order and the datasets of such squares with most interesting orders for cross-verification with other researchers.

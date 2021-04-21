@@ -8,6 +8,7 @@
 #define ORDER_LIMIT 19
 #define mod(x, p) (x < 0 ? x % p + p : x % p)
 
+
 int order = 5;
 int * vector;
 FILE * output;
@@ -60,14 +61,27 @@ static void normalize(int position) {
 static void hashSquareSraight(int _count) {
     for (int row = 0; row < order; ++row)
         for (int column = 0; column < order; ++column)
-            matrices[_count * matrix_size + row * order + column] = (char) mod(column - vector[row], order);
+            matrices[_count * matrix_size + row * order + column] = (char) mod((column - vector[row]), order);
 }
 
 
 static void hashSquareTranspose(int _count) {
     for (int column = 0; column < order; ++column)
         for (int row = 0; row < order; ++row)
-            matrices[_count * matrix_size + column * order + row] = (char) mod(column - vector[row], order);
+            matrices[_count * matrix_size + column * order + row] = (char) mod((column - vector[row]), order);
+}
+
+static void hashSquareMainDiagonal(int _count) {
+    for (int row = 0; row < order; ++row)
+        for (int column = 0; column < order; ++column)
+            matrices[_count * matrix_size + mod((column + row), order) * order + column] = (char) mod((column - vector[row]), order);
+}
+
+
+static void hashSquareAntiDiagonal(int _count) {
+    for (int column = 0; column < order; ++column)
+        for (int row = 0; row < order; ++row)
+            matrices[_count * matrix_size + mod((column + row), order) * order + order - 1 - column] = (char) mod((column - vector[row]), order);
 }
 
 
@@ -76,7 +90,11 @@ static void step(int row) {
     for (int column = 1; column < order; ++column) {
         to_proceed = 1;
         for (int row_history = 0; row_history < row; ++row_history)
-            if (column == vector[row_history] || mod(column - vector[row_history], order) == row - row_history || mod(vector[row_history] - column, order) == row - row_history)
+            if (
+                column == vector[row_history] ||
+                mod((column - vector[row_history]), order) == row - row_history ||
+                mod((vector[row_history] - column), order) == row - row_history
+                )
                 to_proceed = 0;
         if (to_proceed) {
             vector[row] = column;
@@ -86,6 +104,36 @@ static void step(int row) {
                 if (order <= ORDER_LIMIT) {
                     hashSquareSraight(count++);
                     hashSquareTranspose(count++);
+                } else count += 2;
+            }
+        }
+    }
+}
+
+
+
+static void step_diagonal(int row) {
+    int to_proceed;
+    for (int column = 1; column < order; ++column) {
+        to_proceed = 1;
+        for (int row_history = 0; row_history < row; ++row_history)
+            if (
+                column == vector[row_history] ||
+                mod((row + column), order) == mod((row_history + vector[row_history]), order) ||
+                mod((mod((row + column), order) - mod((row_history + vector[row_history]), order)), order) == mod((column - vector[row_history]), order) ||
+                mod((- mod((row + column), order) + mod((row_history + vector[row_history]), order)), order) == mod((column - vector[row_history]), order) ||
+                mod((mod((row + column), order) - mod((row_history + vector[row_history]), order)), order) == mod((- column + vector[row_history]), order) ||
+                mod((- mod((row + column), order) + mod((row_history + vector[row_history]), order)), order) == mod((- column + vector[row_history]), order)
+                )
+                to_proceed = 0;
+        if (to_proceed) {
+            vector[row] = column;
+            if (row + 1 < order)
+                step_diagonal(row + 1);
+            else {
+                if (order <= ORDER_LIMIT) {
+                    hashSquareMainDiagonal(count++);
+                    hashSquareAntiDiagonal(count++);
                 } else count += 2;
             }
         }
@@ -117,6 +165,12 @@ int main(int argc, char * argv[]) {
     for (int i = 2; i < order - 1; ++i) {
         vector[1] = i;
         step(2);
+    }
+    for (int i = 1; i < order - 1; ++i) {
+        if (i != 6) {
+            vector[1] = i;
+            step_diagonal(2);
+        }
     }
     int countNonEqual = 0;
     if (order <= ORDER_LIMIT) {

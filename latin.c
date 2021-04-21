@@ -187,9 +187,9 @@ int main(int argc, char * argv[]) {
     free(vector);
     free(matrices);
     free(matrix_status);
-    printf("The total number of horizontally and vertically semi-cyclic (including full-cyclic) pandiagonal Latin squares: %d\n", count);
+    printf("The total number of semi-cyclic (including full-cyclic) pandiagonal Latin squares: %d\n", count);
     if (order <= ORDER_LIMIT)
-        printf("The total number of non-equal horizontally and vertically semi-cyclic (including full-cyclic) pandiagonal Latin squares: %d\n", countNonEqual);
+        printf("The total number of non-equal semi-cyclic (including full-cyclic) pandiagonal Latin squares: %d\n", countNonEqual);
     else
         puts("Some of them are equal");
 

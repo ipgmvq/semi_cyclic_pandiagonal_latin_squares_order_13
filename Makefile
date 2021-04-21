@@ -1,2 +1,2 @@
-latin: latin.c
-	clang -o latin latin.c
+latin.exe: latin.c
+	clang -o latin.exe latin.c

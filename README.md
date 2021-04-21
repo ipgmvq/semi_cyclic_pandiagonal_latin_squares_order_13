@@ -6,7 +6,7 @@ This repository is created to publish a new computational fast algorithm of cons
 The first version is not multithreaded and designed for both the POSIX environments (Linux, macOS) and Windows. An additional version, which I will upload very soon, is going to be multithreaded, but suited for the POSIX environments only, because it employes POSIX threads.
 
 # Usage
-After compilation (for which the attached Makefile can be used), it is best launched from the Linux/macOS terminal or Windows PowerShell/Command Prompt. The file computes (semi)cyclic pandiagonal Latin squares of the order of 5 by default. It has a minimum limit of 3 and a maximum limit of 19, inclusive. In order to compute the quares in this range other than 5, one needs to supply the order as a first parameter after the program file name in the Linux/macOS terminal or Windows PowerShell/Command Prompt respectively.
+After compilation (for which the attached Makefile can be used), it is best launched from the Linux/macOS terminal or Windows PowerShell/Command Prompt. The file computes (semi)cyclic pandiagonal Latin squares of the order of 5 by default. It has a minimum limit of 3 and a maximum limit of 19, inclusive. In order to compute the squares in this range with the order other than 5, one needs to supply the order as a first parameter after the program file name in the Linux/macOS terminal or Windows PowerShell/Command Prompt respectively.
 
 Windows
 ``` > latin.exe 13 ```
